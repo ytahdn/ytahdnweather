@@ -22,14 +22,15 @@ public class YtahdnWeatherOpenHelper extends SQLiteOpenHelper {
 	/**建表
 	 * 县级
 	 */
-	private static final String CREATE_COUNTY = "create table Country("
+	private static final String CREATE_COUNTY = "create table County("
 			+ "id integer primary key autoincrement" + ",county_name text"
-			+ ",county_code text" + "city_id integer)";
+			+ ",county_code text" + ",city_id integer)";
 
 	public YtahdnWeatherOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
 		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

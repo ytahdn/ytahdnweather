@@ -90,6 +90,7 @@ public class Utility {
 					county.setCityId(cityId);
 					db.saveCounty(county);
 				}
+				return true;
 			}
 		}
 		return false;

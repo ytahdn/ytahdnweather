@@ -14,14 +14,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ytahdnweather.app.R;
+import com.ytahdnweather.app.adapter.AreaAdapter;
 import com.ytahdnweather.app.model.City;
 import com.ytahdnweather.app.model.County;
 import com.ytahdnweather.app.model.Province;
 import com.ytahdnweather.app.util.HttpCallbackListener;
 import com.ytahdnweather.app.util.HttpUtil;
+import com.ytahdnweather.app.util.LogUtil;
 import com.ytahdnweather.app.util.Utility;
+import com.ytahdnweather.app.util.WeatherApplication;
 import com.ytahdnweather.app.util.YtahdnWeatherDB;
 
 public class ChooseAreaActivity extends Activity {
@@ -30,7 +34,7 @@ public class ChooseAreaActivity extends Activity {
 	public static final int LEVEL_COUNTY = 2;
 	private ListView listview;
 	private TextView titletext;
-	private ArrayAdapter<String> adapter;
+	private AreaAdapter adapter;
 	private List<String> dataList = new ArrayList<String>();
 	private YtahdnWeatherDB db;
 	private List<Province> provinceList;
@@ -49,8 +53,7 @@ public class ChooseAreaActivity extends Activity {
 		setContentView(R.layout.choose_area);
 		listview = (ListView) findViewById(R.id.list_view);
 		titletext = (TextView) findViewById(R.id.title_text);
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_expandable_list_item_1, dataList);
+		adapter = new AreaAdapter(this, R.layout.area_item, dataList);
 		listview.setAdapter(adapter);
 		db = YtahdnWeatherDB.getInstence(this);
 		listview.setOnItemClickListener(new OnItemClickListener() {
@@ -157,12 +160,14 @@ public class ChooseAreaActivity extends Activity {
 			@Override
 			public void onError(Exception e) {
 				// TODO Auto-generated method stub
-
+				Toast.makeText(WeatherApplication.getContext(), "获取天气省份信息出错",
+						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
 			public void OnFinished(String response) {
 				// TODO Auto-generated method stub
+				LogUtil.d("response", response);
 				boolean result = false;
 				if ("province".equals(type)) {
 					result = Utility.handleProvincesResponse(response, db);

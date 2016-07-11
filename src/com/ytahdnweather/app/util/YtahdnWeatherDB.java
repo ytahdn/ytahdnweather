@@ -58,7 +58,7 @@ public class YtahdnWeatherDB {
 	 * @param province
 	 */
 	public void saveProvince(Province province) {
-		if (province == null) {
+		if (province != null) {
 
 			ContentValues values = new ContentValues();
 			values.put("province_name", province.getProvinceName());
@@ -100,11 +100,12 @@ public class YtahdnWeatherDB {
 	 * @param province
 	 */
 	public void saveCity(City city) {
-		if (city == null) {
+		if (city != null) {
 
 			ContentValues values = new ContentValues();
 			values.put("city_name", city.getCityName());
 			values.put("city_code", city.getCityCode());
+			values.put("province_id", city.getProvinceId());
 			db.insert("City", null, values);
 		}
 
@@ -136,12 +137,14 @@ public class YtahdnWeatherDB {
 	 */
 	public void saveCounty(County county){
 		
-		if (county == null) {
+		if (county != null) {
 
 			ContentValues values = new ContentValues();
 			values.put("county_name", county.getCountyName());
 			values.put("county_code", county.getCountyCode());
+			values.put("city_id", county.getCityId());
 			db.insert("County", null, values);
+			
 		}
 	}
 	

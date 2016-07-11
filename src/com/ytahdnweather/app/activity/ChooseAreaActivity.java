@@ -5,13 +5,15 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,20 @@ public class ChooseAreaActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		if (!getIntent().getBooleanExtra("from_weather_activity", false)) {// 不是天气界面切换过来的
+			if (preferences.getBoolean("city_select", false)) {
+
+				Intent intent = new Intent(ChooseAreaActivity.this,
+						WeatherActivity.class);
+				startActivity(intent);
+				finish();
+				return;
+			}
+
+		}
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.choose_area);
@@ -68,6 +84,14 @@ public class ChooseAreaActivity extends Activity {
 				} else if (currentLevel == LEVEL_CITY) {
 					selectedCity = cityList.get(index);
 					queryCounties();
+				} else if (currentLevel == LEVEL_COUNTY) {
+					String country_code = countyList.get(index).getCountyCode();
+					Intent intent = new Intent(ChooseAreaActivity.this,
+							WeatherActivity.class);
+					intent.putExtra("county_code", country_code);
+					startActivity(intent);
+					finish();
+
 				}
 
 			}

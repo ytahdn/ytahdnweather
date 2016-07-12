@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ytahdnweather.app.R;
+import com.ytahdnweather.app.server.AutoUpdateService;
 import com.ytahdnweather.app.util.HttpCallbackListener;
 import com.ytahdnweather.app.util.HttpUtil;
 import com.ytahdnweather.app.util.LogUtil;
@@ -126,6 +127,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+		Intent intent = new Intent(WeatherActivity.this,AutoUpdateService.class);
+		startService(intent);
 
 	}
 
@@ -162,6 +165,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 
 							String weatherCode = arr[1];
 							queryWeatherInfo(weatherCode);
+							LogUtil.d("weathercode", weatherCode);
 						}
 					}
 				} else if ("weatherCode".equals(type)) {
